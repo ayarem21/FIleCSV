@@ -1,9 +1,18 @@
 require 'csv'
 
-array_csv = CSV.read("acme_worksheet.csv")
-table = CSV.parse(File.read("acme_worksheet.csv"), headers: true)
-if Date.parse(table[0]["Date"]).mon / 10 == 0
-  print(Date.parse(table[0]["Date"]).year, '-0',Date.parse(table[0]["Date"]).mon, '-',Date.parse(table[0]["Date"]).mday)
-else
-  print(Date.parse(table[0]["Date"]).year, '-',Date.parse(table[0]["Date"]).mon, '-',Date.parse(table[0]["Date"]).mday)
+table = CSV.parse(File.read("csv/acme_worksheet.csv"), headers: true)
+
+temp_array = table["Date"].uniq!#.unshift("Name / Date")
+# print(temp_array)
+date_array = []
+temp_array.each_with_index do |elem, i|
+  date_array[i] = "#{Date.parse(elem).year}-#{'%02i' % Date.parse(elem).mon}-#{ '%02i' % Date.parse(elem).mday}"
+  # puts date_array[i]
+end
+date_array = date_array.unshift("Name / Date")
+print(date_array)
+CSV.open("csv/accounting.csv", "w",
+  write_headers: true,
+  headers: date_array
+  ) do |csv|
 end
