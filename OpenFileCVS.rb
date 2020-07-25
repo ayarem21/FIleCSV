@@ -1,7 +1,7 @@
 require 'csv'
 
 table = CSV.parse(File.read("csv/acme_worksheet.csv"), headers: true)
-not_formatted_data = table["Date"].uniq!#.unshift("Name / Date")
+not_formatted_data = table["Date"].uniq!
 employee_name = table["Employee Name"].uniq!
 formatted_data = []
 not_formatted_data.each_with_index do |elem, i|
